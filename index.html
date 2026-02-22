@@ -1,28 +1,81 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Literasi Seni</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis 30 Detik</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:url("https://images.unsplash.com/photo-1513364776144-60967b0f800f") no-repeat center center/cover;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+background:rgba(255,255,255,0.95);
+padding:30px;
+width:90%;
+max-width:600px;
+border-radius:15px;
+text-align:center;
+position:relative;
+}
+
+.timer{
+position:fixed;
+top:20px;
+right:20px;
+width:70px;
+height:70px;
+border-radius:50%;
+background:crimson;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:22px;
+font-weight:bold;
+}
+
+button{
+margin:8px 0;
+padding:10px;
+width:100%;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:14px;
+}
+
+button:hover{
+opacity:0.85;
+}
+</style>
 </head>
-<body class="home">
-  <div class="container">
-    <h1>Ruang Literasi Seni</h1>
-    <p>Pilih tema warna sebelum menjawab soal</p>
 
-    <div class="themes">
-      <button class="ungu" onclick="start('ungu')">Ungu</button>
-      <button class="biru" onclick="start('biru')">Biru</button>
-      <button class="pink" onclick="start('pink')">Pink</button>
-      <button class="hijau" onclick="start('hijau')">Hijau</button>
-    </div>
-  </div>
+<body>
 
-  <script>
-    function start(theme){
-      localStorage.setItem("theme", theme);
-      location.href = "quiz.html";
-    }
-  </script>
+<div class="timer" id="timer">30</div>
+
+<div class="container">
+
+<h2>Kuis Cepat 30 Detik</h2>
+
+<button onclick="startQuiz()">Mulai Kuis</button>
+
+<p id="passage"></p>
+<h3 id="question"></h3>
+<div id="options"></div>
+<p id="progress"></p>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
