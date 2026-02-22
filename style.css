@@ -1,0 +1,71 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  background-image: url("images/bg-seni.jpg");
+  background-size: cover;
+  background-position: center;
+  transition: background 0.6s ease;
+}
+
+/* OVERLAY */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 0;
+  pointer-events: none;
+  transition: background 0.6s ease;
+}
+
+/* TEMA WARNA */
+body.ungu::before {
+  background: rgba(123, 78, 255, 0.45);
+}
+body.biru::before {
+  background: rgba(77, 163, 255, 0.45);
+}
+body.pink::before {
+  background: rgba(255, 126, 185, 0.45);
+}
+body.hijau::before {
+  background: rgba(76, 175, 80, 0.45);
+}
+
+/* KONTEN */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  background: rgba(255,255,255,0.92);
+  border-radius: 18px;
+}
+
+/* BUTTON */
+button {
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: none;
+  margin: 6px;
+  font-weight: bold;
+}
+
+.ungu { background:#7b4eff;color:white; }
+.biru { background:#4da3ff;color:white; }
+.pink { background:#ff7eb9;color:white; }
+.hijau { background:#4caf50;color:white; }
+/* FIX WARNA TEKS SOAL */
+.container h1,
+.container h2,
+.container h3,
+.container p,
+.container div {
+  color: #222;
+}
