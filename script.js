@@ -1,60 +1,110 @@
-const theme = localStorage.getItem("theme");
-if (theme) document.body.classList.add(theme);
-
+let currentIndex = 0;
 let score = 0;
-let correct = 0;
-let timer = 0;
-let interval;
+let answered = 0;
+let timeLeft = 30;
+let timerInterval;
 
 const questions = [
-  {
-    passage: "Seni kriya adalah cabang seni rupa yang menekankan keterampilan tangan.",
-    question: "Apa fokus utama seni kriya?",
-    options: [
-      "Teknologi digital",
-      "Keterampilan tangan",
-      "Efek suara",
-      "Gerak tubuh"
-    ],
-    answer: 1
-  }
+{
+passage:"Batik tulis dibuat menggunakan canting dan malam panas.",
+question:"Nilai utama dalam membatik adalah...",
+options:["Ketelitian","Kecepatan","Persaingan","Produksi massal"],
+answer:0
+},
+{
+passage:"Gerabah dibuat dari tanah liat yang dibakar.",
+question:"Tujuan pembakaran gerabah adalah...",
+options:["Mewarnai","Mengeraskan","Menghias","Mempercepat"],
+answer:1
+},
+{
+passage:"Anyaman bambu digunakan untuk membuat keranjang.",
+question:"Keunggulan bambu adalah...",
+options:["Mahal","Sulit dibentuk","Ramah lingkungan","Berat"],
+answer:2
+},
+{
+passage:"Ukiran kayu tradisional memiliki nilai filosofis.",
+question:"Fungsi simbol dalam ukiran adalah...",
+options:["Dekorasi biasa","Nilai filosofis","Agar mahal","Ekspor"],
+answer:1
+},
+{
+passage:"Tenun dibuat dengan menyilangkan benang.",
+question:"Nilai yang dipelajari dari menenun adalah...",
+options:["Kesabaran","Kekuatan","Kecepatan","Kompetisi"],
+answer:0
+}
 ];
 
+function startQuiz(){
+currentIndex=0;
+score=0;
+answered=0;
+timeLeft=30;
+
+document.getElementById("timer").textContent=timeLeft;
+
+startTimer();
+showQuestion();
+}
+
 function startTimer(){
-  timer = 0;
-  document.getElementById("timer").innerText = "Waktu: 0";
-  interval = setInterval(()=>{
-    timer++;
-    document.getElementById("timer").innerText = "Waktu: " + timer;
-  },1000);
+timerInterval=setInterval(()=>{
+timeLeft--;
+document.getElementById("timer").textContent=timeLeft;
+
+if(timeLeft<=0){
+clearInterval(timerInterval);
+finishQuiz();
+}
+},1000);
 }
 
-function loadQuestion(){
-  startTimer();
-  const q = questions[0];
-  document.getElementById("passage").innerText = q.passage;
-  document.getElementById("question").innerText = q.question;
-
-  const opt = document.getElementById("options");
-  opt.innerHTML = "";
-
-  q.options.forEach((o,i)=>{
-    const btn = document.createElement("button");
-    btn.innerText = o;
-    btn.onclick = ()=>checkAnswer(i === q.answer);
-    opt.appendChild(btn);
-  });
+function showQuestion(){
+if(currentIndex>=questions.length){
+finishQuiz();
+return;
 }
 
-function checkAnswer(correctAnswer){
-  clearInterval(interval);
-  if(correctAnswer){
-    correct++;
-    score += timer <= 180 ? 25 : 15;
-  }
+const q=questions[currentIndex];
 
-  localStorage.setItem("finalScore", score);
-  location.href = "result.html";
+document.getElementById("passage").textContent=q.passage;
+document.getElementById("question").textContent=q.question;
+
+const optionsDiv=document.getElementById("options");
+optionsDiv.innerHTML="";
+
+q.options.forEach((option,i)=>{
+const btn=document.createElement("button");
+btn.textContent=option;
+btn.onclick=()=>selectAnswer(i);
+optionsDiv.appendChild(btn);
+});
+
+document.getElementById("progress").textContent=
+"Soal dijawab: "+answered;
 }
 
-loadQuestion();
+function selectAnswer(selected){
+answered++;
+
+if(selected===questions[currentIndex].answer){
+score++;
+}
+
+currentIndex++;
+showQuestion();
+}
+
+function finishQuiz(){
+clearInterval(timerInterval);
+
+document.querySelector(".container").innerHTML=`
+<h2>Waktu Habis!</h2>
+<p>Total dijawab: ${answered}</p>
+<p>Jawaban benar: ${score}</p>
+<p>Skor akhir: ${score} poin</p>
+<button onclick="location.reload()">Main Lagi</button>
+`;
+}
